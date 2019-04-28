@@ -1,4 +1,8 @@
 pipeline {
+    parameters {
+        string(name: 'JENKINS_USER_ID', defaultValue: '112')
+        string(name: 'JENKINS_GROUP_ID', defaultValue: '117')
+    }
     environment {
         docker_image_name = "python3-unittests"
         HTTP_PROXY = "${params.HTTP_PROXY}"
@@ -7,7 +11,7 @@ pipeline {
     }
     agent {
         dockerfile {
-            additionalBuildArgs '--build-arg "JENKINS_USER_ID=${JENKINS_USER_ID}" --build-arg "JENKINS_GROUP_ID=${JENKINS_GROUP_ID}" --build-arg "http_proxy=${HTTP_PROXY}" --build-arg "https_proxy=${HTTP_PROXY}"'
+            additionalBuildArgs '--build-arg "JENKINS_USER_ID=${JENKINS_USER_ID}" --build-arg "JENKINS_GROUP_ID=${JENKINS_GROUP_ID}"'
             filename 'Dockerfile.build'
             dir '.'
             label env.docker_image_name
