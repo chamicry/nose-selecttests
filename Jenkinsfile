@@ -7,7 +7,7 @@ pipeline {
     }
     agent {
         dockerfile {
-            additionalBuildArgs '--build-arg "JENKINS_USER_ID=${JENKINS_USER_ID}" --build-arg "JENKINS_GROUP_ID=${JENKINS_GROUP_ID}" --build-arg "http_proxy=${HTTP_PROXY}" --build-arg "https_proxy=${HTTP_PROXY}"'
+            additionalBuildArgs '--build-arg "JENKINS_USER_ID=112" --build-arg "JENKINS_GROUP_ID=117"'
             filename 'Dockerfile.build'
             dir '.'
             label env.docker_image_name
@@ -23,6 +23,8 @@ pipeline {
                         dir('.') {
                             script {
                                 sh 'pep8 . --exclude=**/test*.py |true'
+                                sh 'set HTTP_PROXY=$HTTP_PROXY'
+                                sh 'set HTTPS_PROXY=$HTTP_PROXY'
                             }
                             step([
                                 $class: 'WarningsPublisher',
